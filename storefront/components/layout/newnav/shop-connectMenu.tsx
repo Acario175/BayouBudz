@@ -3,13 +3,22 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
-const ShopConnectMenu = ({ productTypes }) => {
+interface ProductType {
+  title: string;
+  path?: string;
+}
+
+// const ShopConnectMenu = ({ productTypes }) => {
+const ShopConnectMenu = ({ productTypes }: { productTypes: (string | ProductType)[] }) => {
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
   const [isConnectMenuOpen, setIsConnectMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  const shopTimeoutRef = useRef(null);
-  const connectTimeoutRef = useRef(null);
+  // const shopTimeoutRef = useRef(null);
+  const shopTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const connectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // const connectTimeoutRef = useRef(null);
 
   // Detect if it's mobile
   useEffect(() => {
@@ -23,7 +32,10 @@ const ShopConnectMenu = ({ productTypes }) => {
 
   // Close other menus when opening one
   const openShopMenu = () => {
-    clearTimeout(shopTimeoutRef.current);
+    if (shopTimeoutRef.current) {
+      clearTimeout(shopTimeoutRef.current);
+    }
+    // clearTimeout(shopTimeoutRef.current);
     setIsShopMenuOpen(true);
     setIsConnectMenuOpen(false); // Close Connect menu
   };
@@ -37,7 +49,10 @@ const ShopConnectMenu = ({ productTypes }) => {
   };
 
   const openConnectMenu = () => {
-    clearTimeout(connectTimeoutRef.current);
+    // clearTimeout(connectTimeoutRef.current);
+    if (connectTimeoutRef.current) {
+      clearTimeout(connectTimeoutRef.current);
+    }
     setIsConnectMenuOpen(true);
     setIsShopMenuOpen(false); // Close Shop menu
   };
@@ -71,8 +86,11 @@ const ShopConnectMenu = ({ productTypes }) => {
             <ul className="py-2">
               {productTypes.map((item, index) => (
                 <li key={`shop-${index}`} className="px-4 py-2 hover:bg-gray-200">
-                  <Link href={item.path || '/'} className="px-4 py-2 hover:bg-gray-200">
-                    {item.title || 'Untitled'}
+                  <Link
+                    href={(item as ProductType).path || '/'}
+                    className="px-4 py-2 hover:bg-gray-200"
+                  >
+                    {(item as ProductType).title || 'Untitled'}
                   </Link>
                 </li>
               ))}

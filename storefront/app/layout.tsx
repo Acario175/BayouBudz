@@ -1,6 +1,6 @@
 import { CartProvider } from 'components/cart/cart-context';
 import { Navbar } from 'components/layout/navbar';
-import { NavbarV2 } from 'components/layout/navbarv2';
+// import { NavbarV2 } from 'components/layout/navbarv2';
 import Newnav from 'components/layout/newnav';
 import { WelcomeToast } from 'components/welcome-toast';
 import { GeistSans } from 'geist/font/sans';
@@ -51,7 +51,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         {/* bg-neutral-50 text-black selection:bg-teal-300*/}
         <CartProvider cartPromise={cart}>
           {/* <NavbarV2 /> */}
-          <Newnav productTypes={productTypes} connectMenu={connectMenu} />
+          <Newnav productTypes={productTypes} />
           <main>
             {children}
             {/* <Toaster closeButton /> */}

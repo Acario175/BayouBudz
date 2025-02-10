@@ -9,9 +9,14 @@ import ShopConnectMenu from './shop-connectMenu';
 import MobileMenu from './mobile-menu';
 import { getMenu } from 'lib/shopify';
 
-const rubikWetPaint = Rubik_Wet_Paint({ weight: '400' }); // Declare the font variable here
+const rubikWetPaint = Rubik_Wet_Paint({ subsets: ['latin'], weight: '400' }); // Declare the font variable here
 
-const Newnav = async ({ productTypes, connectMenu }) => {
+interface ProductType {
+  title: string;
+  path?: string;
+}
+
+const Newnav = async ({ productTypes }: { productTypes: (string | ProductType)[] }) => {
   const menu = await getMenu('shop-menu');
   return (
     <nav className="flex items-center justify-between bg-gray-100 p-4 px-8">
